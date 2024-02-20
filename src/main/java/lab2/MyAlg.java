@@ -1,8 +1,10 @@
 package lab2;
 
+import org.uncommons.maths.random.Probability;
 import org.uncommons.watchmaker.framework.*;
 import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
 import org.uncommons.watchmaker.framework.selection.RouletteWheelSelection;
+import org.uncommons.watchmaker.framework.selection.TournamentSelection;
 import org.uncommons.watchmaker.framework.termination.GenerationCount;
 
 import java.util.ArrayList;
@@ -12,9 +14,9 @@ import java.util.Random;
 public class MyAlg {
 
     public static void main(String[] args) {
-        int dimension = 2; // dimension of problem
-        int populationSize = 10; // size of population
-        int generations = 10; // number of generations
+        int dimension = 100; // dimension of problem
+        int populationSize = 100; // size of population
+        int generations = 5000; // number of generations
 
         Random random = new Random(); // random
 
@@ -22,10 +24,10 @@ public class MyAlg {
 
         ArrayList<EvolutionaryOperator<double[]>> operators = new ArrayList<EvolutionaryOperator<double[]>>();
         operators.add(new MyCrossover()); // Crossover
-        operators.add(new MyMutation(0.2)); // Mutation
+        operators.add(new MyMutation(0.005)); // Mutation
         EvolutionPipeline<double[]> pipeline = new EvolutionPipeline<double[]>(operators);
 
-        SelectionStrategy<Object> selection = new RouletteWheelSelection(); // Selection operator
+        SelectionStrategy<Object> selection = new TournamentSelection(new Probability(0.9)); // Selection operator
 
         FitnessEvaluator<double[]> evaluator = new FitnessFunction(dimension); // Fitness function
 
